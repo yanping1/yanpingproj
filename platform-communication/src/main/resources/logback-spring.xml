@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <property name="app_name" value="face_communication"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- sql日志 项目部署稳定后需关闭此日志-->
+<!--    <logger name="com.dkha.government.mappers" level="DEBUG"></logger>
+    <logger name="com.dkha.government.system.modules.sys.dao" level="DEBUG"></logger>
+    <logger name="com.dkha.government.system.modules.security.dao" level="DEBUG"></logger>-->
+
+
+    <appender name="traceFile"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>/mnt/appSystems/logs/${app_name}/%d{yyyy-MM, aux}/trace.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--访问日志最大500M-->
+            <maxFileSize>500MB</maxFileSize>
+            <!-- 保留10天 -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorFile"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/appSystems/logs/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- rollover daily -->
+            <fileNamePattern>/mnt/appSystems/logs/${app_name}/%d{yyyy-MM, aux}/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--访问日志最大500M-->
+            <maxFileSize>500MB</maxFileSize>
+            <!-- 保留10天 -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <!-- <appender-ref ref="stash" /> -->
+        <appender-ref ref="traceFile"/>
+        <appender-ref ref="errorFile"/>
+    </root>
+
+</configuration>

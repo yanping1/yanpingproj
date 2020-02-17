@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkha.api.mappers.ControlLibraryMidMapper">
+    <select id="getControlLibMid" resultType="com.dkha.api.modules.entities.ControlLibraryMid">
+        SELECT
+        id,
+        id_control_task as idControlTask,
+        id_factory as idFactory,
+        <![CDATA[date_format(create_time,'%Y-%m-%d')      as createTime]]>
+        FROM
+        control_library_mid
+        WHERE
+        is_valid = 'Y'
+        <if test="idControlTask != null and idControlTask.trim() != ''">
+            AND id_control_task  like CONCAT('%',#{idControlTask},'%')
+        </if>
+    </select>
+    <!--根据任务删除摄像头中间表-->
+    <delete id="deleteControlBayonetMidByLid" >
+          DELETE  FROM control_library_mid WHERE id_control_task =#{taskID}
+    </delete>
+
+</mapper>

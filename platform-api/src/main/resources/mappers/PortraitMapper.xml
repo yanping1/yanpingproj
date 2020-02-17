@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkha.api.mappers.PortraitMapper">
+    <select id="getPortrait" resultType="com.dkha.api.modules.entities.Portrait">
+        SELECT
+        id_portrait,
+        id_factory,
+           id_faceid,
+        url,
+        background_url,
+        name,
+        sex,
+        birth_date,
+        id_card,
+        featId,
+        extra_meta,
+        face_rect,
+        feature,
+        is_valid,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        nation
+        FROM
+        portrait
+        WHERE
+        is_valid = 'Y'
+        <if test="libraryId!=null and libraryId.trim()!=''">
+         and id_factory=#{libraryId}
+        </if>
+    </select>
+    <delete id="deletePortrait"  >
+          DELETE  FROM portrait WHERE id_factory =#{taskID}
+    </delete>
+    <select id="queryPortraitByFactory" resultType="com.dkha.api.modules.entities.Portrait">
+       SELECT
+	id_portrait,
+	id_factory,
+	url,
+	background_url,
+	NAME,
+	sex,
+	birth_date
+        FROM
+        portrait
+        WHERE
+        is_valid = 'Y'
+      and id_factory = #{idFactory}
+    </select>
+    <select id="getPortraitByIdFaceid" resultType="com.dkha.api.modules.entities.Portrait">
+        SELECT
+        id_portrait,
+        id_factory,
+        id_faceid,
+        url,
+        background_url,
+        name,
+        sex,
+        birth_date,
+        id_card,
+        extra_meta,
+        face_rect,
+        feature,
+        is_valid,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        nation
+        FROM
+        portrait
+        WHERE
+        is_valid = 'Y'
+        <if test="faceId!=null and faceId.trim() !=''">
+        and id_faceid = #{faceId}
+        </if>
+        <if test="idFactory!=null and idFactory.trim() !=''">
+            and id_factory = #{idFactory}
+        </if>
+    </select>
+
+    <select id="getPortraitByIdIdPortrait" resultType="com.dkha.api.modules.entities.Portrait">
+        SELECT
+        id_portrait,
+        id_factory,
+        id_faceid,
+        url,
+        background_url,
+        name,
+        sex,
+        birth_date,
+        id_card,
+        featId,
+        extra_meta,
+        face_rect,
+        feature,
+        is_valid,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        nation
+        FROM
+        portrait
+        <if test="idPortrait!=null and idPortrait.trim() !=''">
+            WHERE   id_portrait = #{idPortrait}
+        </if>
+    </select>
+</mapper>

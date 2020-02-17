@@ -1,0 +1,134 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8013
+  connection-timeout: 5000ms
+  servlet:
+    context-path: /dkha
+    session:
+      cookie:
+        http-only: true
+spring:
+  # 报警消息异步队列
+  rabbitmq:
+    host: 10.51.10.201
+    port: 5672
+    username: admin
+    password: admin
+    #开启发送确认
+    publisher-confirms: true
+    publisher-returns: true
+
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 2
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch-cluster
+      cluster-nodes: 10.51.10.201:9300
+      client-transport-sniff: false
+      repositories:
+        enabled: true
+  datasource:
+    druid:
+      #MySQL
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.51.10.201:3301/faceapi?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&useJDBCCompliantTimezoneShift=true
+      username: root
+      password: 123456
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 6000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+  application:
+    name: face_server
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  redis:
+    database: 2
+    host: 10.51.10.201
+    #host: localhost
+    port: 6379
+    password:    # 密码（默认为空）
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+  activiti:
+    check-process-definitions: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true  #日期格式不自动格式化,返回毫秒
+renren.redis.open: true
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mappers/**/**/*.xml, classpath:/mappers/*.xml
+  typeAliasesPackage: com.dkha.server.modules.entities,com.dkha.server.system.modules.**.entity
+  global-config:
+    db-config:
+      # 如果入库为空值，则忽略掉控空值
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      select-strategy: NOT_NULL
+    # 是否控制台 print mybatis-plus 的 LOGO
+    banner: false
+  configuration:
+    #是否开启自动驼峰命名规则（camel case）映射
+    map-underscore-to-camel-case: true
+    #全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存，默认为 true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+wy:
+  piclink: http://10.51.10.203:32080/
+  #是否需要使用坐标优化
+  isPosition: true
+#info:
+#  app.name: face_server
+#  company.name: ${erlogin.ip}
+#  build.artifactId: ${project.artifactId}
+#  build.version: ${project.version}
+#erlogin:
+#  username: dkha
+#  userpass: Dkha123
+#  ip: 192.168.3.143
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://${erlogin.username}:${erlogin.userpass}@${erlogin.ip}:7101/eureka/,http://${erlogin.username}:${erlogin.userpass}@${erlogin.ip}:7102/eureka/
+#  instance:
+#    instance-id: government-cloud-8004
+#    prefer-ip-address: true

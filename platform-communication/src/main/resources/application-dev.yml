@@ -1,0 +1,75 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 300
+  port: 9901
+  connection-timeout: 5000ms
+  servlet:
+    context-path: /communication
+    session:
+      cookie:
+        http-only: true
+spring:
+  #elasticsearch 配置
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch-cluster
+      cluster-nodes: 10.51.10.201:9300
+      client-transport-sniff: false
+      repositories:
+        enabled: true
+  redis:
+    database: 8
+    host: 10.51.10.201
+    port: 6379
+    password:
+    timeout: 6000ms
+    jedis:
+      pool:
+        max-active: 1000
+        max-wait: -1ms
+        max-idle: 10
+        min-idle: 5
+
+  application:
+    name: face_communication
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  activiti:
+    check-process-definitions: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true  #日期格式不自动格式化,返回毫秒
+      # 报警消息异步队列
+
+  rabbitmq:  # 报警消息异步队列
+    host: 10.51.10.201
+    port: 5672
+    username: admin
+    password: admin
+    #开启发送确认
+    publisher-confirms: true
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+
+
+
+#swagger显示控制
+swagger:
+  show: true
+
+#用于标志当前服务唯一名称请保持全局唯一性--如有eureka，应和eureka->instance->instance-id 保持一致 服务名称请勿使用 ":" 冒号
+faceServer:
+  name: communication-9908
+  #测试服务器使用，请勿修改
+   #name: communication-9904-server
+

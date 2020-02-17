@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkha.api.mappers.FaceLibraryMapper">
+    <select id="getFactory" resultType="com.dkha.api.modules.entities.FaceLibrary">
+        SELECT
+        id_factory as idFactory,
+        factory_name as factoryName,
+        factory_type as factoryType,
+        remarks,
+        <![CDATA[date_format(create_time,'%Y-%m-%d')      as createTime,]]>
+        extra_meta as extraMeta
+        FROM
+        face_library
+        WHERE
+        is_valid = 'Y'
+        <if test="factoryName != null and factoryName.trim() != ''">
+            AND factory_name = like CONCAT('%',#{factoryName},'%')
+        </if>
+    </select>
+
+    <!--根据id删除人脸库-->
+    <delete id="deleteFactoryById" >
+          DELETE  FROM face_library WHERE id_factory =#{taskID}
+    </delete>
+</mapper>

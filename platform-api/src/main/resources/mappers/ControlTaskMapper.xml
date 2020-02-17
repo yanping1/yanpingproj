@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dkha.api.mappers.ControlTaskMapper">
+    <select id="getControlTask" resultType="com.dkha.api.modules.entities.ControlTask">
+        SELECT
+        id_control_task as idControlTask,
+        task_name as taskName,
+        control_threshold as controlThreshold,
+        remarks,
+        <![CDATA[date_format(create_time,'%Y-%m-%d')      as createTime,]]>
+        extra_meta as extraMeta
+        FROM
+        control_task
+        WHERE
+        is_valid = 'Y'
+    </select>
+    <!--根据任务删除摄像头中间表-->
+    <delete id="deleteControlTaskById" >
+          DELETE  FROM control_task WHERE id_control_task =#{taskID}
+    </delete>
+</mapper>

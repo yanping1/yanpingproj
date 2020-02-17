@@ -1,0 +1,55 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 100
+    min-spare-threads: 10
+  port: 8019
+  connection-timeout: 5000ms
+  servlet:
+    context-path: /resultalarm
+    session:
+      cookie:
+        http-only: true
+
+spring:
+  debug: true
+  rabbitmq:  # 报警消息异步队列
+    host: 10.51.10.201
+    port: 5672
+    username: admin
+    password: admin
+    #开启发送确认
+    publisher-confirms: true
+    publisher-returns: true
+
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 5
+    #elasticsearch 配置
+
+
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch-cluster
+      cluster-nodes: 10.51.10.201:9300
+      client-transport-sniff: false
+      repositories:
+        enabled: true
+# 报警时间过滤，存储摄像头
+  redis:
+    database: 7
+    host: 10.51.10.201
+    port: 6379
+    password:
+    timeout: 6000ms
+    jedis:
+      pool:
+        max-active: 1000
+        max-wait: -1ms
+        max-idle: 10
+        min-idle: 5
+
+  application:
+    name: resultalarm
+
