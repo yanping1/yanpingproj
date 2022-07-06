@@ -46,7 +46,7 @@
         <net.sf.json-lib.version>2.2.2</net.sf.json-lib.version>
         <jwt-version>3.2.0</jwt-version>
         <springloaded.version>1.2.8.RELEASE</springloaded.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.9.1</shiro.version>
         <jsoup.version>1.11.3</jsoup.version>
         <commons-io-version>2.6</commons-io-version>
         <aspectjrt.version>1.9.1</aspectjrt.version>
